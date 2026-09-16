@@ -54,7 +54,12 @@ export const pillars = [
     title: 'Learning Management System',
     body: 'Our flagship LMS includes access to 30+ sport-specific courses with advanced tracking, SCORM support and custom branding. Create engaging learning experiences through gamification and a mobile-friendly interface.',
     features: ['30+ sport courses', 'SCORM compatible', 'Custom branding', 'Track face-to-face and classroom sessions'],
-    image: 'media/product/lms.webp'
+    image: 'media/product/lms.webp',
+    // Intrinsic size: lets the browser reserve the box before the image
+    // loads, so the section does not grow and shift every ScrollTrigger
+    // measurement below it.
+    w: 1100,
+    h: 1256
   },
   {
     id: 'compliance',
@@ -62,7 +67,12 @@ export const pillars = [
     title: 'Compliance Reporting',
     body: 'Maintain 100% compliance with automated tracking, renewal alerts and comprehensive reporting. DBS management, training compliance and audit-ready documentation.',
     features: ['DBS & safeguarding tracking', 'Automatic renewal alerts', 'Audit-ready evidence trail', 'Board-level reporting'],
-    image: 'media/product/compliance.webp'
+    image: 'media/product/compliance.webp',
+    // Intrinsic size: lets the browser reserve the box before the image
+    // loads, so the section does not grow and shift every ScrollTrigger
+    // measurement below it.
+    w: 1100,
+    h: 1168
   },
   {
     id: 'membership',
@@ -70,7 +80,12 @@ export const pillars = [
     title: 'Membership Management',
     body: 'Sell, track and manage memberships with automated renewals. Tiered access controls, member profiles and comprehensive admin tools for sports organisations.',
     features: ['Automated renewals', 'Tiered access control', 'Rich member profiles', 'Club & role hierarchies'],
-    image: 'media/product/membership.webp'
+    image: 'media/product/membership.webp',
+    // Intrinsic size: lets the browser reserve the box before the image
+    // loads, so the section does not grow and shift every ScrollTrigger
+    // measurement below it.
+    w: 1100,
+    h: 1036
   }
 ]
 

@@ -69,7 +69,10 @@ useGsapContext(root, (ctx, gsap) => {
               <img
                 :src="asset(pillar.image)"
                 :alt="`${pillar.title} interface in the eCoach platform`"
+                :width="pillar.w"
+                :height="pillar.h"
                 loading="lazy"
+                decoding="async"
                 data-parallax
               />
             </div>
@@ -149,6 +152,10 @@ useGsapContext(root, (ctx, gsap) => {
 
 .pillar__frame img {
   width: 100%;
+  /* With the width/height attributes present, `height: auto` is what makes
+     the browser reserve the box at the correct aspect ratio before the file
+     arrives. No explicit aspect-ratio needed. */
+  height: auto;
   border-radius: var(--r-md);
   /* The image is taller than its frame so it has room to drift. */
   will-change: transform;
