@@ -140,6 +140,12 @@ button { font: inherit; color: inherit; border: none; background: none; cursor: 
    of it when a nav link jumps to them. */
 [id] { scroll-margin-top: 92px; }
 
+/* The drifting sports-icon layer is fixed at z-index 0. Lifting the page
+   content above it means icons show against the canvas but are occluded by
+   any painted card or panel — depth rather than clutter on top of the copy. */
+main,
+body > footer { position: relative; z-index: 1; }
+
 /* ==========================================================================
    Type scale — display tracking pulls negative, eyebrow goes positive
    ========================================================================== */

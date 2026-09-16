@@ -7,6 +7,8 @@ import PlatformSection from './components/PlatformSection.vue'
 import EcosystemScroller from './components/EcosystemScroller.vue'
 import BuilderSection from './components/BuilderSection.vue'
 import TestimonialSection from './components/TestimonialSection.vue'
+import OrbitSection from './components/OrbitSection.vue'
+import SportSystem from './components/SportSystem.vue'
 import ContactSection from './components/ContactSection.vue'
 import SiteFooter from './components/SiteFooter.vue'
 import { ScrollTrigger } from './composables/useGsap'
@@ -22,6 +24,7 @@ onMounted(() => {
 
 <template>
   <SiteNav />
+  <SportSystem />
   <main>
     <HeroSection />
     <ClientMarquee />
@@ -29,6 +32,7 @@ onMounted(() => {
     <EcosystemScroller />
     <BuilderSection />
     <TestimonialSection />
+    <OrbitSection />
     <ContactSection />
   </main>
   <SiteFooter />
