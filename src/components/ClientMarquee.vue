@@ -31,7 +31,11 @@ useGsapContext(root, (ctx, gsap) => {
     <div class="marquee__viewport">
       <ul ref="track" class="marquee__track">
         <li v-for="(client, i) in doubled" :key="`${client.file}-${i}`" :aria-hidden="i >= clients.length">
-          <img :src="asset(`media/clients/${client.file}.webp`)" :alt="i < clients.length ? client.name : ''" loading="lazy" />
+          <!-- Not lazy: the track is 5,500px wide, so most tiles start outside the
+             viewport and the browser defers them — then they scroll into view
+             blank. The whole set is ~200KB of WebP and the duplicates reuse the
+             same URLs, so eager loading is the cheaper trade. -->
+        <img :src="asset(`media/clients/${client.file}.webp`)" :alt="i < clients.length ? client.name : ''" decoding="async" />
         </li>
       </ul>
     </div>
