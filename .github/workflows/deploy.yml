@@ -47,7 +47,9 @@ jobs:
       - name: Add Pages helper files
         run: |
           touch dist/.nojekyll      # keep files starting with "_"
-          cp dist/index.html dist/404.html
+          # The catch-all route is prerendered to dist/404/index.html; GitHub
+          # Pages serves dist/404.html for unknown URLs, so copy it into place.
+          cp dist/404/index.html dist/404.html
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

@@ -1,39 +1,36 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import SiteNav from './components/SiteNav.vue'
-import HeroSection from './components/HeroSection.vue'
-import ClientMarquee from './components/ClientMarquee.vue'
-import PlatformSection from './components/PlatformSection.vue'
-import EcosystemScroller from './components/EcosystemScroller.vue'
-import BuilderSection from './components/BuilderSection.vue'
-import TestimonialSection from './components/TestimonialSection.vue'
-import OrbitSection from './components/OrbitSection.vue'
-import SportSystem from './components/SportSystem.vue'
-import ContactSection from './components/ContactSection.vue'
 import SiteFooter from './components/SiteFooter.vue'
+import SportSystem from './components/SportSystem.vue'
 import { ScrollTrigger } from './composables/useGsap'
 
+const router = useRouter()
+
 onMounted(() => {
-  // Web fonts and lazy images change element heights after ScrollTrigger has
-  // measured them; a refresh once everything has settled keeps every trigger
-  // anchored to where its section actually ended up.
+  // Web fonts and images settle after ScrollTrigger's first measurement.
   document.fonts?.ready.then(() => ScrollTrigger.refresh())
   window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true })
 })
+
+// Every view mounts its own triggers; stale ones from the previous route have
+// to go, or their pin-spacers keep distorting the new page's measurements.
+watch(
+  () => router.currentRoute.value.fullPath,
+  () => {
+    requestAnimationFrame(() => ScrollTrigger.refresh())
+  }
+)
 </script>
 
 <template>
   <SiteNav />
-  <SportSystem />
+  <SportSystem v-if="$route.name === 'home'" />
   <main>
-    <HeroSection />
-    <ClientMarquee />
-    <PlatformSection />
-    <EcosystemScroller />
-    <BuilderSection />
-    <TestimonialSection />
-    <OrbitSection />
-    <ContactSection />
+    <RouterView v-slot="{ Component }">
+      <component :is="Component" :key="$route.fullPath" />
+    </RouterView>
   </main>
   <SiteFooter />
 </template>

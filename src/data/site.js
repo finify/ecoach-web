@@ -7,11 +7,23 @@
 // dev server ('/') and under a GitHub Pages project path ('/<repo>/').
 export const asset = (path) => `${import.meta.env.BASE_URL}${path}`.replace(/\/{2,}/g, '/')
 
+/**
+ * Rewrites the relative image paths inside migrated article HTML to absolute,
+ * base-aware URLs.
+ *
+ * The migration stores `media/content/x.webp`. Left relative, that resolves
+ * against the current route — on /news/some-article/ the browser would ask for
+ * /news/some-article/media/content/x.webp and get nothing.
+ */
+export const withAssetPaths = (html) =>
+  (html || '').replace(/(src|href)="(?!https?:|\/|data:|#|mailto:)([^"]+)"/g, (m, attr, path) => `${attr}="${asset(path)}"`)
+
 export const nav = [
-  { label: 'Platform', href: '#platform' },
-  { label: 'Blocks', href: '#blocks' },
-  { label: 'Pricing', href: '#builder' },
-  { label: 'Customers', href: '#customers' }
+  { label: 'Platform', to: '/platform' },
+  { label: 'What we do', to: '/what-we-do' },
+  { label: 'Case studies', to: '/case-studies' },
+  { label: 'News', to: '/news' },
+  { label: 'Team', to: '/team' }
 ]
 
 export const hero = {
@@ -50,6 +62,7 @@ export const clients = [
 export const pillars = [
   {
     id: 'lms',
+    to: '/platform/learning-management-system',
     eyebrow: 'Comprehensive learning platform',
     title: 'Learning Management System',
     body: 'Our flagship LMS includes access to 30+ sport-specific courses with advanced tracking, SCORM support and custom branding. Create engaging learning experiences through gamification and a mobile-friendly interface.',
@@ -63,6 +76,7 @@ export const pillars = [
   },
   {
     id: 'compliance',
+    to: '/platform/compliance-credentials',
     eyebrow: 'Automated compliance management',
     title: 'Compliance Reporting',
     body: 'Maintain 100% compliance with automated tracking, renewal alerts and comprehensive reporting. DBS management, training compliance and audit-ready documentation.',
@@ -76,6 +90,7 @@ export const pillars = [
   },
   {
     id: 'membership',
+    to: '/platform/membership-crm',
     eyebrow: 'Complete member administration',
     title: 'Membership Management',
     body: 'Sell, track and manage memberships with automated renewals. Tiered access controls, member profiles and comprehensive admin tools for sports organisations.',

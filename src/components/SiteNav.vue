@@ -2,8 +2,10 @@
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import BrandMark from './BrandMark.vue'
 import { gsap, prefersReducedMotion } from '../composables/useGsap'
+import { useRouter } from 'vue-router'
 import { nav, asset } from '../data/site'
 
+const router = useRouter()
 const scrolled = ref(false)
 const menuOpen = ref(false)
 const panel = ref(null)
@@ -72,34 +74,30 @@ watch(menuOpen, (open) => {
   open ? tl.play() : tl.reverse()
 })
 
-const go = (href) => {
-  menuOpen.value = false
-  // Let the panel start moving before the page jumps, so the two don't fight.
-  setTimeout(() => {
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, prefersReducedMotion() ? 0 : 260)
-}
+// Router navigation handles the scrolling now (see scrollBehavior in main.js);
+// this just gets the panel out of the way first so the two don't fight.
+const close = () => { menuOpen.value = false }
 </script>
 
 <template>
   <header class="nav" :class="{ 'nav--solid': scrolled || menuOpen }">
     <div class="nav__inner shell">
-      <a class="lockup" href="#top" aria-label="eCoach — home" @click.prevent="go('#top')">
+      <RouterLink class="lockup" to="/" aria-label="eCoach — home" @click="close">
         <BrandMark class="lockup__mark" animated />
         <img class="lockup__word" :src="asset('media/brand/wordmark.png')" alt="eCoach" />
-      </a>
+      </RouterLink>
 
       <nav class="nav__links" aria-label="Primary">
-        <a v-for="item in nav" :key="item.href" :href="item.href" @click.prevent="go(item.href)">
+        <RouterLink v-for="item in nav" :key="item.to" :to="item.to">
           {{ item.label }}
-        </a>
+        </RouterLink>
       </nav>
 
       <div class="nav__actions">
-        <a class="btn btn--primary" href="#contact" @click.prevent="go('#contact')">
+        <RouterLink class="btn btn--primary" to="/contact">
           Book a walkthrough
           <span class="btn__arrow" aria-hidden="true">→</span>
-        </a>
+        </RouterLink>
         <button
           class="nav__burger"
           :aria-expanded="menuOpen"
@@ -126,26 +124,26 @@ const go = (href) => {
     <BrandMark class="menu__watermark" animated aria-hidden="true" />
 
     <nav class="menu__nav" aria-label="Mobile">
-      <a
+      <RouterLink
         v-for="(item, i) in nav"
-        :key="item.href"
+        :key="item.to"
         class="menu__item"
-        :href="item.href"
-        @click.prevent="go(item.href)"
+        :to="item.to"
+        @click="close"
       >
         <span class="menu__index" data-menu-index>{{ String(i + 1).padStart(2, '0') }}</span>
         <span class="menu__mask">
           <span class="menu__label" data-menu-label>{{ item.label }}</span>
         </span>
         <span class="menu__chevron" aria-hidden="true">→</span>
-      </a>
+      </RouterLink>
     </nav>
 
     <div class="menu__foot">
-      <a class="btn btn--primary menu__cta" href="#contact" data-menu-foot @click.prevent="go('#contact')">
+      <RouterLink class="btn btn--primary menu__cta" to="/contact" data-menu-foot @click="close">
         Book a walkthrough
         <span class="btn__arrow" aria-hidden="true">→</span>
-      </a>
+      </RouterLink>
       <p class="menu__tagline" data-menu-foot>Sporting excellence for all.</p>
     </div>
   </div>
@@ -206,6 +204,10 @@ const go = (href) => {
 
 .nav__links a:hover { color: var(--ink); }
 .nav__links a:hover::after { transform: scaleX(1); }
+
+/* vue-router adds these; the active page keeps its underline drawn. */
+.nav__links a.router-link-active { color: var(--ink); }
+.nav__links a.router-link-active::after { transform: scaleX(1); }
 
 .nav__actions { display: flex; align-items: center; gap: var(--s-3); }
 .nav__actions .btn { display: none; }

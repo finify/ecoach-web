@@ -1,6 +1,6 @@
 <script setup>
 import BrandMark from './BrandMark.vue'
-import { asset, nav } from '../data/site'
+import { asset } from '../data/site'
 
 const year = new Date().getFullYear()
 
@@ -8,30 +8,32 @@ const columns = [
   {
     title: 'Platform',
     links: [
-      { label: 'Learning Management', href: '#platform' },
-      { label: 'Compliance Reporting', href: '#platform' },
-      { label: 'Membership Management', href: '#platform' },
-      { label: 'All 10 blocks', href: '#blocks' }
+      { label: 'All 10 blocks', to: '/platform' },
+      { label: 'Learning Management', to: '/platform/learning-management-system' },
+      { label: 'Compliance & Credentials', to: '/platform/compliance-credentials' },
+      { label: 'Membership & CRM', to: '/platform/membership-crm' },
+      { label: 'Pricing & savings', to: '/#builder' }
     ]
   },
   {
     title: 'Company',
     links: [
-      { label: 'What we do', href: 'https://e-coach.co.uk/what-we-do/' },
-      { label: 'Case studies', href: 'https://e-coach.co.uk/case-studies/' },
-      { label: 'Testimonials', href: 'https://e-coach.co.uk/testimonials/' },
-      { label: 'News', href: 'https://e-coach.co.uk/news/' }
+      { label: 'What we do', to: '/what-we-do' },
+      { label: 'Case studies', to: '/case-studies' },
+      { label: 'Testimonials', to: '/testimonials' },
+      { label: 'The team', to: '/team' }
     ]
   },
   {
-    title: 'Get started',
+    title: 'More',
     links: [
-      { label: 'Book a walkthrough', href: 'https://e-coach.co.uk/get-in-touch/' },
-      { label: 'Estimate savings', href: '#builder' },
-      { label: 'Blog', href: 'https://e-coach.co.uk/blog/' }
+      { label: 'News & insight', to: '/news' },
+      { label: 'Get in touch', to: '/contact' },
+      { label: 'Cookie policy', to: '/cookie-policy' }
     ]
   }
 ]
+
 </script>
 
 <template>
@@ -39,10 +41,10 @@ const columns = [
     <div class="shell">
       <div class="footer__top">
         <div class="footer__brand">
-          <a class="lockup" href="#top" aria-label="eCoach — home">
+          <RouterLink class="lockup" to="/" aria-label="eCoach — home">
             <BrandMark class="lockup__mark" />
             <img class="lockup__word" :src="asset('media/brand/wordmark.png')" alt="eCoach" />
-          </a>
+          </RouterLink>
           <p class="footer__tagline">Sporting excellence for all.</p>
           <p class="footer__blurb">
             The all-in-one platform for sport learning, compliance and membership — trusted by 50+
@@ -54,7 +56,7 @@ const columns = [
           <h2 class="footer__col-title">{{ column.title }}</h2>
           <ul>
             <li v-for="link in column.links" :key="link.label">
-              <a :href="link.href">{{ link.label }}</a>
+              <RouterLink :to="link.to">{{ link.label }}</RouterLink>
             </li>
           </ul>
         </nav>

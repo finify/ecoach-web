@@ -101,8 +101,9 @@ case "$cmd" in
     # Tell Pages not to run the output through Jekyll, which would drop any
     # file or directory whose name starts with an underscore.
     touch dist/.nojekyll
-    # SPA-style deep links fall back to the same document.
-    cp dist/index.html dist/404.html
+    # Unknown URLs get the prerendered not-found page, not a copy of the home
+    # page pretending to be one.
+    cp dist/404/index.html dist/404.html
 
     say "Publishing dist/ to the gh-pages branch…"
     tmp="$(mktemp -d)"

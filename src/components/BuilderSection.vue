@@ -153,15 +153,15 @@ useGsapContext(root, (ctx, gsap) => {
             selected block, per user per year.
           </p>
 
-          <a
+          <RouterLink
             class="btn btn--primary builder__cta"
             :class="{ 'is-disabled': !count }"
             :aria-disabled="!count"
-            href="#contact"
+            to="/contact"
           >
             Get my tailored quote
             <span class="btn__arrow" aria-hidden="true">→</span>
-          </a>
+          </RouterLink>
         </aside>
       </div>
     </div>

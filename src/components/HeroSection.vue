@@ -73,10 +73,10 @@ useGsapContext(root, (ctx, gsap) => {
       <p class="hero__body lead" data-hero-body>{{ hero.body }}</p>
 
       <div class="hero__ctas">
-        <a class="btn btn--primary btn--lg" href="#contact" data-hero-cta>
+        <RouterLink class="btn btn--primary btn--lg" to="/contact" data-hero-cta>
           Book your walkthrough
           <span class="btn__arrow" aria-hidden="true">→</span>
-        </a>
+        </RouterLink>
         <a class="btn btn--ghost btn--lg" href="#builder" data-hero-cta>
           Build your platform
         </a>

@@ -28,10 +28,10 @@ useGsapContext(root, (ctx, gsap) => {
           your organisation actually works.
         </p>
         <div class="cta__actions" data-reveal>
-          <a class="btn btn--primary btn--lg" href="https://e-coach.co.uk/get-in-touch/">
+          <RouterLink class="btn btn--primary btn--lg" to="/contact">
             Book your walkthrough
             <span class="btn__arrow" aria-hidden="true">→</span>
-          </a>
+          </RouterLink>
           <a class="btn btn--ghost btn--lg" href="#builder">Estimate your savings</a>
         </div>
       </div>

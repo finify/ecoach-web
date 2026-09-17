@@ -58,10 +58,10 @@ useGsapContext(root, (ctx, gsap) => {
                 {{ feature }}
               </li>
             </ul>
-            <a class="pillar__link" href="#contact" data-reveal>
+            <RouterLink class="pillar__link" :to="pillar.to" data-reveal>
               Explore {{ pillar.title }}
               <span class="btn__arrow" aria-hidden="true">→</span>
-            </a>
+            </RouterLink>
           </div>
 
           <div class="pillar__media" data-reveal>

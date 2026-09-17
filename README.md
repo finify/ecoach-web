@@ -113,19 +113,87 @@ Source** to **Deploy from a branch**, `gh-pages` / root.
 `.nojekyll` matters: without it Pages runs the output through Jekyll, which drops
 any file or directory whose name begins with an underscore.
 
+## Pages
+
+The site is a prerendered multi-page app. `vite-ssg` renders every route below
+to its own `index.html`, so a deep link is a real 200 with real markup — not an
+empty shell hydrated by JavaScript, and not the `404.html` fallback trick.
+
+| Route | What it is |
+|---|---|
+| `/` | The single-page pitch: hero, platform, blocks, pricing builder, orbit |
+| `/what-we-do` | Course catalogue, tailored LXP, module creation |
+| `/platform` | All 10 blocks with prices |
+| `/platform/:slug` | A detail page per block (10 of them) |
+| `/case-studies` | The 7 client case studies |
+| `/testimonials` | Quote plus the client wall |
+| `/team` | Three bios, photos and direct emails |
+| `/news` | All 43 articles, filterable by category |
+| `/news/:slug` | An article page per post (43 of them) |
+| `/contact` | Walkthrough request (see below) |
+| `/cookie-policy` | Migrated legal text |
+| `404.html` | The prerendered not-found route |
+
+That is **63 HTML files**, each with its own `<title>` and description.
+
+### The contact form
+
+GitHub Pages is a static host, so there is nowhere to `POST`. The form composes
+a `mailto:` from the fields instead — the visitor's own mail client sends it,
+and they keep a copy in their Sent folder. Swapping in a real endpoint later
+means changing one computed property in `ContactView.vue`.
+
+## Content migration
+
+`npm run content` re-runs the whole pipeline against the live WordPress site:
+
+```
+scripts/fetch-content.mjs    pull pages + posts, sanitise, download images
+scripts/optimise-images.mjs  convert to WebP, rewrite references
+scripts/build-data.mjs       derive team/courses, split article bodies
+```
+
+The output is committed to `src/content/`, so an ordinary build never touches
+the network.
+
+Two things the pipeline exists to solve:
+
+- **The source markup is Themify page-builder output with Word-pasted spans** —
+  30KB of nested `<div>`s and inline styles for a 400-word article. The
+  sanitiser reduces everything to an allowlist (`h2`–`h4`, `p`, lists,
+  `blockquote`, `a`, `img`) so one set of `.prose` rules styles all 43 posts.
+- **Images came off WordPress at full upload resolution**, 26.5MB across 172
+  files. They are resized to 1400px and converted to WebP, which brings that to
+  9.5MB.
+
+`posts.json` holds only the index (21KB). Article bodies live in
+`articles.json` (194KB) and load on article routes only — otherwise every
+listing page would ship all 43 bodies just to render a grid of titles.
+
+The block detail pages are hand-authored in `src/data/blockPages.js` rather than
+migrated: those source pages are interactive product mockups, so their markup
+reduces to fragments rather than prose. Their intros and feature names are taken
+verbatim from the originals.
+
 ## Structure
 
 ```
 index.html              %BASE_URL% placeholders for favicon and og:image
 run.sh                  dev / build / preview / deploy / clean
-vite.config.js          base path from BASE_PATH
+vite.config.js          base path + the list of routes to prerender
+scripts/                the one-off WordPress migration pipeline
 src/
-  data/site.js          all copy, pricing and the asset() helper
-  styles/tokens.css     design tokens, type scale, reveal resting states
-  composables/          GSAP context, scroll reveal, count-up
-  components/           BrandMark, nav, hero, marquee, platform,
-                        ecosystem scroller, builder, testimonial, CTA, footer
-public/media/           video, product screenshots, client logos, brand marks
+  router.js             every route, listed explicitly
+  main.js               ViteSSG entry; sets the router base from BASE_URL
+  data/site.js          home-page copy, pricing, asset() + withAssetPaths()
+  data/blockPages.js    the 10 block detail pages
+  content/              migrated posts, pages, team, courses (committed)
+  styles/tokens.css     design tokens, type scale, .prose, reveal states
+  composables/          GSAP context, scroll reveal, count-up, SEO head
+  components/           BrandMark, nav, footer, hero, marquee, platform,
+                        ecosystem scroller, builder, orbit, cards
+  views/                one component per route
+public/media/           video, screenshots, client logos, migrated images
 ```
 
 ## Notes
@@ -137,5 +205,10 @@ public/media/           video, product screenshots, client logos, brand marks
   nobody bought.
 - Prices and statistics are the ones published on the current site and should be
   confirmed before this goes live.
-- "Book a walkthrough" and the footer's company links still point at the existing
-  WordPress site; repoint them when the new pages exist.
+- Internal links now point at the new routes. The only outbound links left are
+  the team's `mailto:` addresses.
+- Four block pages on the old site have no content (the site itself says they
+  are "currently being improved"), so they are not built here. The directory
+  block is included because the home page carried enough copy to stand one up.
+- The router base comes from `BASE_URL`. Without it every internal link would
+  resolve against the domain root and 404 under the `/ecoach-web/` path.
