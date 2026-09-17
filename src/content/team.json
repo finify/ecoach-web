@@ -1,0 +1,23 @@
+[
+ {
+  "name": "Simon Richards",
+  "role": "Director",
+  "bio": "Simon is a former teacher and online training manager who began eCoach early in 2017. He has worked with some of the biggest organisations in the UK and devised learning that is utilised by over 100,000 learners every year. A real passion for training and education drives Simon’s ethos for eCoach and has underpinned the company’s growth from the start. He lives just outside Cardiff, is married, has two fantastic children and a dog called Skylar, and supports the Bluebirds!",
+  "email": "simon.richards@e-coach.co.uk",
+  "image": "media/content/portait-simon-1-edited.webp"
+ },
+ {
+  "name": "Jamila Akel Lewis",
+  "role": "Learning Design Manager",
+  "bio": "Jamila has a degree in Computer Animation and by joining her illustration and design skills to an acute pedagogical style, she has designed highly engaging and effective eLearning courses. She was part of BBC Wales Digital Media Department, and throughout her career was involved in projects for the NHS, Cambridge University Press, and Transport For London, among others. She uses baking as a way to relax, and enjoys physical exercise to keep fit and clear her mind!",
+  "email": "jamila@e-coach.co.uk",
+  "image": "media/content/portait-jamila-edited.webp"
+ },
+ {
+  "name": "Charlotte Moult",
+  "role": "Marketing & Events Manager",
+  "bio": "Charlotte is an experienced and dynamic Arts and Marketing professional who has been part of the Music, Events and Technology industries for over a decade. With a degree in Journalism in hand, she has demonstrated passion and diligence for working with stakeholders to plan and deliver successful campaigns, organise events, and develop strategies. Charlotte is fond of cooking and going out to watch live music!",
+  "email": "charlotte@e-coach.co.uk",
+  "image": "media/content/portait-charlotte-edited.webp"
+ }
+]

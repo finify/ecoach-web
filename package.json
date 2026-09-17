@@ -3,18 +3,23 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "eCoach — the all-in-one platform for sport. Learning, compliance & membership.",
+  "description": "eCoach \u2014 the all-in-one platform for sport. Learning, compliance & membership.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview --port 4173"
+    "build": "vite-ssg build",
+    "preview": "vite preview --port 4173",
+    "build:spa": "vite build",
+    "content": "node scripts/fetch-content.mjs && node scripts/optimise-images.mjs && node scripts/build-data.mjs"
   },
   "dependencies": {
     "gsap": "^3.12.5",
-    "vue": "^3.4.38"
+    "vue": "^3.4.38",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.3",
-    "vite": "^5.4.3"
+    "node-html-parser": "^9.0.4",
+    "vite": "^5.4.3",
+    "vite-ssg": "^28.3.0"
   }
 }
